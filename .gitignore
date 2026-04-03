@@ -1,0 +1,25 @@
+# Ignore build artifacts and generated files
+/build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+*.o
+*.obj
+*.so
+*.a
+*.d
+*.swp
+*.user
+*.log
+*.tmp
+*.autogen/
+
+# Ignore Qt Creator/VSCode/IDE files
+*.pro.user
+*.qbs.user
+*.creator.*
+.vscode/
+
+# But keep the built executable for convenience
+!/build/seeder-simulator
