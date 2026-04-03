@@ -1,0 +1,36 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Seeder Simulator",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/seeder-simulator",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [
+                { "name": "PATH", "value": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" },
+                { "name": "HOME", "value": "/home/cycix" },
+                { "name": "USER", "value": "cycix" },
+                { "name": "DISPLAY", "value": ":99" },
+                { "name": "XDG_RUNTIME_DIR", "value": "/tmp/runtime-cycix" },
+                { "name": "SESSION_MANAGER", "value": "" },
+                { "name": "QT_DEBUG_PLUGINS", "value": "0" },
+                { "name": "QT_QPA_PLATFORM_PLUGIN_PATH", "value": "/usr/lib/x86_64-linux-gnu/qt6/plugins" },
+                { "name": "DBUS_SESSION_BUS_ADDRESS", "value": "unix:path=/tmp/dbus-dummy" },
+                { "name": "NO_AT_BRIDGE", "value": "1" }
+            ],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "ensure-xvfb"
+        }
+    ]
+}

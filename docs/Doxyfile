@@ -1,0 +1,10 @@
+# Doxygen configuration for Seeder Simulator
+# Minimal config for source code documentation
+
+PROJECT_NAME           = "Seeder Simulator"
+OUTPUT_DIRECTORY       = docs
+INPUT                  = ../src
+RECURSIVE              = YES
+GENERATE_LATEX         = NO
+GENERATE_HTML          = YES
+QUIET                  = YES

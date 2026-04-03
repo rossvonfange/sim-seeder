@@ -1,0 +1,16 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "ensure-xvfb",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-c",
+                "pgrep -f 'Xvfb :99' > /dev/null || (Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &)"
+            ],
+            "isBackground": false,
+            "problemMatcher": []
+        }
+    ]
+}
