@@ -51,7 +51,27 @@ bool IsoStackWrapper::initialize(const std::string &interface)
     const std::vector<isobus::NAMEFilter> tcNameFilters = { filterTaskController, filterTaskControllerInstance, filterTaskControllerIndustryGroup, filterTaskControllerDeviceClass };
     auto partnerTC = isobus::CANNetworkManager::CANNetwork.create_partnered_control_function(0, tcNameFilters);
 
+
     tcClient = std::make_unique<isobus::TaskControllerClient>(partnerTC, internalECU, nullptr);
+
+    // -------------------------------------------------------------------
+    // INJECT: Virtual Terminal Client Setup
+    // -------------------------------------------------------------------
+    // 1. Find a Virtual Terminal on the bus
+    const isobus::NAMEFilter filterVirtualTerminal(
+        isobus::NAME::NAMEParameters::FunctionCode,
+        static_cast<std::uint8_t>(isobus::NAME::Function::VirtualTerminal)
+    );
+    auto partnerVT = isobus::CANNetworkManager::CANNetwork.create_partnered_control_function(0, {filterVirtualTerminal});
+
+    // 2. Instantiate the VT Client (no object pool upload in this API)
+    vtClient = std::make_shared<isobus::VirtualTerminalClient>(
+        partnerVT,
+        internalECU
+    );
+    // 3. Initialize it so it begins the handshake
+    vtClient->initialize(true);
+    // -------------------------------------------------------------------
 
     // Create simple DDOP
     ddop = std::make_shared<isobus::DeviceDescriptorObjectPool>();
@@ -74,6 +94,7 @@ void IsoStackWrapper::terminate()
 {
     if (initialized)
     {
+        if (vtClient) vtClient->terminate();
         tcClient->terminate();
         isobus::CANHardwareInterface::stop();
         initialized = false;
@@ -139,5 +160,6 @@ void IsoStackWrapper::update()
     // tcClient->update_process_data_value(2, static_cast<std::int32_t>(groundSpeed * 1000));
     // tcClient->update_process_data_value(3, static_cast<std::int32_t>(meterSpeed * 1000));
 
+    if (vtClient) vtClient->update();
     tcClient->update();
 }
